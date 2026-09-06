@@ -10,20 +10,36 @@ public class TarefaRepository {
 
     public void salvarTarefa(TarefaModel tarefa){
         tarefas.add(tarefa);
-        System.out.print("Tarefa Adicionada");
     }
 
     public List<TarefaModel> listarTarefas(){
         return tarefas;
     }
 
-    public TarefaModel buscarTarefaPorId(int id){
-        for (TarefaModel tarefa : tarefas){
-            if (tarefa.getID() == id){
-                System.out.println("tarefa com id: " + id + " encontrada");
-                break;
+    public TarefaModel buscarTarefaPorId(int id) {
+        for (TarefaModel tarefa : tarefas) {
+            if (tarefa.getID() == id) {
+                return tarefa;
             }
         }
         return null;
+    }
+
+    public void atualizarTarefa(String titulo,String descricao, int id){
+        for (TarefaModel tarefa : tarefas){
+            if (tarefa.getID() == id){
+                tarefa.setTitulo(titulo);
+                tarefa.setDescricao(descricao);
+            }
+        }
+
+    }
+
+    public void deletarTarefa(int id){
+        for (TarefaModel tarefa : tarefas) {
+            if (tarefa.getID() == id){
+
+            }
+        }
     }
 }
