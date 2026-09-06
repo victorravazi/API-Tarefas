@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API de Tarefas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Painel de Gerenciamento de Tarefas</h1>
+
+<div class="busca-container">
+    <label for="buscar-id"><strong>Buscar Tarefa por ID:</strong></label>
+    <input type="number" id="buscar-id" placeholder="Digite o ID..." min="1">
+    <button type="button" id="btn-buscar">Buscar</button>
+    <button type="button" id="btn-limpar-busca">Mostrar Todas</button>
+    <span id="mensagem-busca"></span>
+</div>
+
+<div class="painel-principal">
+    <div class="coluna-form">
+        <h2>Nova Tarefa</h2>
+        <form id="form-tarefas">
+            <label for="titulo">Título</label>
+            <input type="text" id="titulo" name="titulo" placeholder="Digite o título..." required>
+
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" name="descricao" placeholder="Digite a descrição..." rows="4" required></textarea>
+
+            <button type="submit" name="adicionar">Adicionar Tarefa</button>
+        </form>
+    </div>
+
+    <div class="coluna-tarefas">
+        <h2>Tarefas</h2>
+        <div id="lista-tarefas">
+            <p id="sem-tarefas">Nenhuma tarefa cadastrada.</p>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
