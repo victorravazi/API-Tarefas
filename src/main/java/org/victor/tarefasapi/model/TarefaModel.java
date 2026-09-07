@@ -1,8 +1,12 @@
 package org.victor.tarefasapi.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.context.annotation.Bean;
 
 @AllArgsConstructor
 @Getter
@@ -10,8 +14,14 @@ import lombok.Setter;
 
 public class TarefaModel {
 
-    private int ID;
+    private long ID;
+
+    @NotBlank
+    @Size(max = 40)
     private String titulo;
+
+    @NotBlank
+    @Size(max = 200)
     private String descricao;
-    private boolean concluido;
+    private boolean concluido = false;
 }
