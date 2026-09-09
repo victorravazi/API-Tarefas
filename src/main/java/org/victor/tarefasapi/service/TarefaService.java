@@ -6,6 +6,7 @@ import org.victor.tarefasapi.model.TarefaModel;
 import org.victor.tarefasapi.repository.TarefaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TarefaService {
@@ -14,23 +15,35 @@ public class TarefaService {
     private TarefaRepository tarefaRepository;
 
     public List<TarefaModel> listarTarefas() {
-        return tarefaRepository.listarTarefas();
+        return tarefaRepository.findAll();
     }
 
-    public TarefaModel buscarTarefaPorId(int id) {
-        return tarefaRepository.buscarTarefaPorId(id);
+    public Optional<TarefaModel> buscarTarefaPorId(Long id) {
+        return tarefaRepository.findById(id);
     }
 
-    public void adicionarTarefa(TarefaModel tarefa) {
-        tarefaRepository.salvarTarefa(tarefa);
+    public TarefaModel adicionarTarefa(TarefaModel tarefa) {
+        return tarefaRepository.save(tarefa);
     }
 
-    public boolean atualizarTarefaPorId(int id, String titulo, String descricao) {
-        return tarefaRepository.atualizarTarefaPorId(titulo,descricao,id);
+    public TarefaModel atualizarTarefaPorId(Long id, String titulo, String descricao) {
+        Optional<TarefaModel> tarefaOptional = tarefaRepository.findById(id);
+
+        if (tarefaOptional.isEmpty()) {
+            return null;
+        }
+
+        TarefaModel tarefa = tarefaOptional.get();
+
+        tarefa.setTitulo(titulo);
+        tarefa.setDescricao(descricao);
+
+        return tarefaRepository.save(tarefa);
     }
 
-    public boolean deletarTarefaPorId(int id) {
-        if(tarefaRepository.deletarTarefaPorId(id)) return true;
-        return false;
+    public void deletarTarefaPorId(Long id) {
+        tarefaRepository.deleteById(id);
+
     }
+
 }
