@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 
 public class TarefaModel {
 
-    private long ID;
+    private Long ID;
 
     @NotBlank
     @Size(max = 40)
