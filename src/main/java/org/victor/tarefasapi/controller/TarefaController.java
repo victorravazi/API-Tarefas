@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.victor.tarefasapi.model.TarefaModel;
-import org.victor.tarefasapi.repository.TarefaRepository;
+import org.victor.tarefasapi.service.TarefaService;
 
 import java.util.List;
 
@@ -13,16 +13,16 @@ import java.util.List;
 public class TarefaController {
 
     @Autowired
-    private TarefaRepository tarefaRepository;
+    private TarefaService tarefaService;
 
     @GetMapping
     public ResponseEntity<List<TarefaModel>> listarTarefas() {
-        return ResponseEntity.ok(tarefaRepository.listarTarefas());
+        return ResponseEntity.ok(tarefaService.listarTarefas());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TarefaModel> buscarTarefaPorId(@PathVariable int id) {
-        TarefaModel tarefa =  tarefaRepository.buscarTarefaPorId(id);
+        TarefaModel tarefa =  tarefaService.buscarTarefaPorId(id);
         if(tarefa == null) {
             return ResponseEntity.notFound().build();
         }
@@ -31,20 +31,20 @@ public class TarefaController {
 
     @PostMapping
     public ResponseEntity<TarefaModel> adicionarTarefas(@RequestBody TarefaModel tarefa) {
-        tarefaRepository.salvarTarefa(tarefa);
+        tarefaService.adicionarTarefa(tarefa);
         return ResponseEntity.status(201).body(tarefa);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarTarefasPorId(@PathVariable int id) {
-        boolean tarefa = tarefaRepository.deletarTarefaPorId(id);
-        if(tarefa) return ResponseEntity.ok().build();
+    public ResponseEntity<Void> deletarTarefasPorId(@PathVariable int id) {
+        boolean tarefaDeletada = tarefaService.deletarTarefaPorId(id);
+        if(tarefaDeletada) return ResponseEntity.ok().build();
         return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarTarefaPorId(@PathVariable int id, @RequestBody TarefaModel tarefa) {
-          boolean tarefaAtualizada = tarefaRepository.atualizarTarefaPorId(tarefa.getTitulo(), tarefa.getDescricao(), id);
+    public ResponseEntity<Void> atualizarTarefaPorId(@PathVariable int id, @RequestBody TarefaModel tarefa) {
+          boolean tarefaAtualizada = tarefaService.atualizarTarefaPorId(id, tarefa.getTitulo(), tarefa.getDescricao());
           if(tarefaAtualizada) return ResponseEntity.ok().build();
           return ResponseEntity.notFound().build();
     }
