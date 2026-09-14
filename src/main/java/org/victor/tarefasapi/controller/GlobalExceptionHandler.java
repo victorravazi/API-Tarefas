@@ -1,9 +1,11 @@
 package org.victor.tarefasapi.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.victor.tarefasapi.exception.TarefaNaoEncontradaException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,5 +20,16 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach(erro -> erros.put(erro.getField(), erro.getDefaultMessage()));
 
         return ResponseEntity.badRequest().body(erros);
+    }
+
+    @ExceptionHandler(TarefaNaoEncontradaException.class)
+    public ResponseEntity<Map<String, String>> tratarTarefaNaoEncontrada(
+            TarefaNaoEncontradaException ex) {
+
+        Map<String, String> erro = new HashMap<>();
+
+        erro.put("erro", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
     }
 }

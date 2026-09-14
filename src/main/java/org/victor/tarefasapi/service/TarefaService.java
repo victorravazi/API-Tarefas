@@ -2,6 +2,7 @@ package org.victor.tarefasapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.victor.tarefasapi.exception.TarefaNaoEncontradaException;
 import org.victor.tarefasapi.model.TarefaModel;
 import org.victor.tarefasapi.repository.TarefaRepository;
 
@@ -18,8 +19,12 @@ public class TarefaService {
         return tarefaRepository.findAll();
     }
 
-    public Optional<TarefaModel> buscarTarefaPorId(Long id) {
-        return tarefaRepository.findById(id);
+    public TarefaModel buscarTarefaPorId(Long id) {
+        return tarefaRepository.findById(id).orElseThrow(() ->
+                new TarefaNaoEncontradaException(
+                        "Tarefa não encontrada"
+                )
+        );
     }
 
     public TarefaModel adicionarTarefa(TarefaModel tarefa) {

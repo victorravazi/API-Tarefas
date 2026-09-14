@@ -24,8 +24,9 @@ public class TarefaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TarefaModel> buscarTarefaPorId(@PathVariable Long id) {
-        Optional<TarefaModel> tarefa =  tarefaService.buscarTarefaPorId(id);
-        return tarefa.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build()); // ←- IDE fez isso, vou aceitar
+        TarefaModel tarefa = tarefaService.buscarTarefaPorId(id);
+
+        return ResponseEntity.ok(tarefa);
     }
 
     @PostMapping
